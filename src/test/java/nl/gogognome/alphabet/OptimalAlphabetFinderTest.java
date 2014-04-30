@@ -13,7 +13,12 @@ public class OptimalAlphabetFinderTest {
 	@Test
 	public void alphabetsExistSoThatAllWordsAreInOrder_findOptimalAlphabet() {
 		Alphabet optimalAlphabet = new OptimalAlphabetFinder().findOptimalAlphabet(Lists.newArrayList("BOOK", "HOOD", "FOOD", "BLOOD"));
-		assertEquals(new Alphabet("HFBLOKD"), optimalAlphabet);
+		String letters = optimalAlphabet.toString();
+		assertTrue(letters.indexOf("H") < letters.indexOf("O"));
+		assertTrue(letters.indexOf("B") < letters.indexOf("O"));
+		assertTrue(letters.indexOf("F") < letters.indexOf("O"));
+		assertTrue(letters.indexOf("O") < letters.indexOf("K"));
+		assertTrue(letters.indexOf("O") < letters.indexOf("D"));
 	}
 
 	@Test
