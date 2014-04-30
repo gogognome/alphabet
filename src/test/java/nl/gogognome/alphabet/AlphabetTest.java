@@ -2,6 +2,9 @@ package nl.gogognome.alphabet;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.Test;
 
 public class AlphabetTest {
@@ -26,6 +29,22 @@ public class AlphabetTest {
 		assertTrue(alphabet.isInOrder(""));
 		assertTrue(alphabet.isInOrder("M"));
 		assertFalse(alphabet.isInOrder("KL"));
+	}
+
+	@Test
+	public void countNrWordsInOrderWithNormalAlphabet() throws IOException {
+		List<String> words = new WordsProvider().getWords();
+		Alphabet alphabet = new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		int nrWordsInOrder = alphabet.countNrWordsInOrder(words);
+		assertEquals(860, nrWordsInOrder);
+	}
+
+	@Test
+	public void countNrWordsInOrderWithAlphabetWithAAndBChanged() throws IOException {
+		List<String> words = new WordsProvider().getWords();
+		Alphabet alphabet = new Alphabet("BACDEFGHIJKLMNOPQRSTUVWXYZ");
+		int nrWordsInOrder = alphabet.countNrWordsInOrder(words);
+		assertEquals(921, nrWordsInOrder);
 	}
 
 }

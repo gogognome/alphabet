@@ -1,5 +1,7 @@
 package nl.gogognome.alphabet;
 
+import java.util.List;
+
 public class Alphabet {
 
 	private static final int UNDEFINED = -1;
@@ -28,6 +30,16 @@ public class Alphabet {
 			}
 		}
 		return true;
+	}
+
+	public int countNrWordsInOrder(List<String> words) {
+		int nrWordsInOrder = 0;
+		for (String word : words) {
+			if (isInOrder(word)) {
+				nrWordsInOrder++;
+			}
+		}
+		return nrWordsInOrder;
 	}
 
 }
