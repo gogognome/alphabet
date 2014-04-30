@@ -3,6 +3,7 @@ package nl.gogognome.alphabet;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -29,6 +30,18 @@ public class OptimalAlphabetFinderTest {
 
 	@Test
 	public void allWordsFromFile_findOptimalAlphabet() throws IOException {
-		assertEquals(new Alphabet("JMPBQVWFCHOUARTZKXINDGLEYS"), new OptimalAlphabetFinder().findOptimalAlphabet(new WordsProvider().getWords()));
+		int bestScore = -1;
+		Alphabet bestAlphabet = null;
+		List<String> words = new WordsProvider().getWords();
+		while (true) {
+			Alphabet alphabet = new OptimalAlphabetFinder().findOptimalAlphabet(words);
+			int score = alphabet.countNrWordsInOrder(words);
+			System.out.println("Score: " + score + ", alphabeet: " + alphabet);
+			if (score > bestScore) {
+				bestAlphabet = alphabet;
+				bestScore = score;
+			}
+			System.out.println(">> Best score: " + bestScore + ", alphabet: " + bestAlphabet);
+		}
 	}
 }

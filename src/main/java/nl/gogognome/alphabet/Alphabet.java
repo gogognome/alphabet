@@ -1,5 +1,6 @@
 package nl.gogognome.alphabet;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,12 +10,12 @@ public class Alphabet {
 
 	private static final int UNDEFINED = -1;
 
+	private final String alphabet;
 	private final int[] charToIndex = new int[26];
 
 	public Alphabet(String alphabet) {
-		for (int i = 0; i < charToIndex.length; i++) {
-			charToIndex[i] = UNDEFINED;
-		}
+		this.alphabet = alphabet;
+		Arrays.fill(charToIndex, UNDEFINED);
 
 		for (int i = 0; i < alphabet.length(); i++) {
 			charToIndex[alphabet.charAt(i) - 'A'] = i;
@@ -51,19 +52,7 @@ public class Alphabet {
 
 	@Override
 	public String toString() {
-		return getStringBuilderWithAlphabet().toString();
-	}
-
-	private StringBuilder getStringBuilderWithAlphabet() {
-		StringBuilder sb = new StringBuilder();
-		for (int indexToFind = 0; indexToFind < charToIndex.length; indexToFind++) {
-			for (int charIndex = 0; charIndex < charToIndex.length; charIndex++) {
-				if (charToIndex[charIndex] == indexToFind) {
-					sb.append((char) ('A' + charIndex));
-				}
-			}
-		}
-		return sb;
+		return alphabet;
 	}
 
 	public Iterable<Alphabet> insertLetterAtAllPositions(char letterToBeInserted) {
@@ -71,11 +60,11 @@ public class Alphabet {
 			return Collections.emptyList();
 		}
 		List<Alphabet> alphabets = Lists.newArrayList();
-		StringBuilder alphabet = getStringBuilderWithAlphabet();
-		for (int position = 0; position < alphabet.length() + 1; position++) {
-			alphabet.insert(position, letterToBeInserted);
-			alphabets.add(new Alphabet(alphabet.toString()));
-			alphabet.deleteCharAt(position);
+		StringBuilder alphabetStringBuilder = new StringBuilder(alphabet);
+		for (int position = 0; position < alphabetStringBuilder.length() + 1; position++) {
+			alphabetStringBuilder.insert(position, letterToBeInserted);
+			alphabets.add(new Alphabet(alphabetStringBuilder.toString()));
+			alphabetStringBuilder.deleteCharAt(position);
 		}
 		return alphabets;
 	}
@@ -84,7 +73,7 @@ public class Alphabet {
 	public boolean equals(Object obj) {
 		if (obj instanceof Alphabet) {
 			Alphabet that = (Alphabet) obj;
-			return this.getStringBuilderWithAlphabet().toString().equals(that.getStringBuilderWithAlphabet().toString());
+			return this.alphabet.equals(that.alphabet);
 		}
 		return false;
 	}

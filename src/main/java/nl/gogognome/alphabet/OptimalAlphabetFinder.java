@@ -1,8 +1,5 @@
 package nl.gogognome.alphabet;
 
-import static com.google.common.collect.Lists.*;
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -14,19 +11,22 @@ public class OptimalAlphabetFinder {
 
 		Alphabet alphabet = new Alphabet("");
 		while (alphabet.toString().length() < usedCharacters.length) {
-			List<ObjectWithCount<Alphabet>> alphabetsWithCounts = newArrayList();
+			Alphabet bestAlphabet = null;
+			int bestScore = -1;
 			for (char letter : usedCharacters) {
 				if (alphabet.containsLetter(letter))
 					continue;
 
 				for (Alphabet candidateAlphabet : alphabet.insertLetterAtAllPositions(letter)) {
 					int nrWordsInOrder = candidateAlphabet.countNrWordsInOrder(words);
-					alphabetsWithCounts.add(new ObjectWithCount<Alphabet>(candidateAlphabet, nrWordsInOrder));
+					if (nrWordsInOrder > bestScore) {
+						bestScore = nrWordsInOrder;
+						bestAlphabet = candidateAlphabet;
+					}
 				}
 			}
-			Collections.sort(alphabetsWithCounts);
-			alphabet = alphabetsWithCounts.get(0).getObject();
-			System.out.println("alphabet so far: " + alphabet + " (" + alphabetsWithCounts.get(0).getCount() + " words in order)");
+			alphabet = bestAlphabet;
+			System.out.println("alphabet so far: " + alphabet + " (" + bestScore + " words in order)");
 		}
 		return alphabet;
 	}
