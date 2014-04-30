@@ -47,4 +47,23 @@ public class AlphabetTest {
 		assertEquals(921, nrWordsInOrder);
 	}
 
+	@Test
+	public void testToString() {
+		assertEquals("ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ").toString());
+		assertEquals("CDE", new Alphabet("CDE").toString());
+		assertEquals("", new Alphabet("").toString());
+	}
+
+	@Test
+	public void testContainsLetter() {
+		assertTrue(new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ").containsLetter('X'));
+		assertTrue(new Alphabet("ABCD").containsLetter('D'));
+		assertFalse(new Alphabet("ABCD").containsLetter('E'));
+	}
+
+	@Test
+	public void testInsertLetterAtAllPositions() {
+		assertEquals("[]", new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ").insertLetterAtAllPositions('X').toString());
+		assertEquals("[XABC, AXBC, ABXC, ABCX]", new Alphabet("ABC").insertLetterAtAllPositions('X').toString());
+	}
 }
