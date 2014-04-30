@@ -66,4 +66,10 @@ public class AlphabetTest {
 		assertEquals("[]", new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ").insertLetterAtAllPositions('X').toString());
 		assertEquals("[XABC, AXBC, ABXC, ABCX]", new Alphabet("ABC").insertLetterAtAllPositions('X').toString());
 	}
+
+	@Test
+	public void testEquals() {
+		assertEquals(new Alphabet("ABC"), new Alphabet("ABC"));
+		assertFalse(new Alphabet("ABC").equals(new Alphabet("CBA")));
+	}
 }

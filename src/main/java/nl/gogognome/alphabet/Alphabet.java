@@ -79,4 +79,14 @@ public class Alphabet {
 		}
 		return alphabets;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Alphabet) {
+			Alphabet that = (Alphabet) obj;
+			return this.getStringBuilderWithAlphabet().toString().equals(that.getStringBuilderWithAlphabet().toString());
+		}
+		return false;
+	}
+
 }
