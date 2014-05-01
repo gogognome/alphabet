@@ -10,6 +10,13 @@ public class OptimalAlphabetFinder {
 		shuffleCharacters(usedCharacters);
 
 		Alphabet alphabet = new Alphabet("");
+		alphabet = findOptimalAlphabet(words, usedCharacters, alphabet);
+
+		Alphabet bestAlphabet = tryFittingTwoLettersAgain(words, usedCharacters, alphabet);
+		return bestAlphabet;
+	}
+
+	private Alphabet findOptimalAlphabet(List<String> words, char[] usedCharacters, Alphabet alphabet) {
 		while (alphabet.toString().length() < usedCharacters.length) {
 			Alphabet bestAlphabet = null;
 			int bestScore = -1;
@@ -26,9 +33,27 @@ public class OptimalAlphabetFinder {
 				}
 			}
 			alphabet = bestAlphabet;
-			System.out.println("alphabet so far: " + alphabet + " (" + bestScore + " words in order)");
 		}
 		return alphabet;
+	}
+
+	private Alphabet tryFittingTwoLettersAgain(List<String> words, char[] usedCharacters, Alphabet alphabet) {
+		Alphabet bestAlphabet = null;
+		int bestScore = -1;
+		for (int i = 1; i < alphabet.toString().length(); i++) {
+			for (int j = 0; j < i; j++) {
+				StringBuilder stringBuilder = new StringBuilder(alphabet.toString());
+				stringBuilder.deleteCharAt(i);
+				stringBuilder.deleteCharAt(j);
+				Alphabet candidateAlphabet = findOptimalAlphabet(words, usedCharacters, new Alphabet(stringBuilder.toString()));
+				int nrWordsInOrder = candidateAlphabet.countNrWordsInOrder(words);
+				if (nrWordsInOrder > bestScore) {
+					bestScore = nrWordsInOrder;
+					bestAlphabet = candidateAlphabet;
+				}
+			}
+		}
+		return bestAlphabet;
 	}
 
 	private void shuffleCharacters(char[] usedCharacters) {
@@ -60,33 +85,5 @@ public class OptimalAlphabetFinder {
 		char[] trimmedUsedCharacters = new char[nrLettersPresent];
 		System.arraycopy(usedCharacters, 0, trimmedUsedCharacters, 0, nrLettersPresent);
 		return trimmedUsedCharacters;
-	}
-
-	private static class ObjectWithCount<T> implements Comparable<ObjectWithCount> {
-		private final T object;
-		private final int count;
-
-		public ObjectWithCount(T object, int count) {
-			this.object = object;
-			this.count = count;
-		}
-
-		public T getObject() {
-			return object;
-		}
-
-		public int getCount() {
-			return count;
-		}
-
-		@Override
-		public int compareTo(ObjectWithCount that) {
-			return that.count - this.count; // sorts on count descendingly
-		}
-
-		@Override
-		public String toString() {
-			return count + "x" + object;
-		}
 	}
 }
