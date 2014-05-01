@@ -46,6 +46,16 @@ public class Alphabet {
 		return nrWordsInOrder;
 	}
 
+	public List<String> getWordsInOrder(List<String> words) {
+		List<String> wordsInOrder = Lists.newArrayList();
+		for (String word : words) {
+			if (isInOrder(word)) {
+				wordsInOrder.add(word);
+			}
+		}
+		return wordsInOrder;
+	}
+
 	public boolean containsLetter(char letter) {
 		return charToIndex[letter - 'A'] != UNDEFINED;
 	}

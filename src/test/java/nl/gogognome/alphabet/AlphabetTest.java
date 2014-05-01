@@ -1,5 +1,6 @@
 package nl.gogognome.alphabet;
 
+import static com.google.common.collect.Lists.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -37,6 +38,11 @@ public class AlphabetTest {
 		Alphabet alphabet = new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		int nrWordsInOrder = alphabet.countNrWordsInOrder(words);
 		assertEquals(860, nrWordsInOrder);
+	}
+
+	@Test
+	public void getWordsInOrder() throws IOException {
+		assertEquals("[ABC, BCD]", new Alphabet("ABCD").getWordsInOrder(newArrayList("ABC", "BDA", "BCD")).toString());
 	}
 
 	@Test
