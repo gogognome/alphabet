@@ -52,14 +52,33 @@ public class GeneticAlgorithm {
 		Shuffle shuffle = new Shuffle();
 		for (int i = 0; i < nrMutations; i++) {
 			int index = random.nextInt(genePool.size());
-			shuffle.shuffleCharacters(genePool.get(index));
+			char[] gene = genePool.get(index).clone();
+			shuffle.shuffleCharacters(gene);
+			genePool.add(gene);
+		}
+
+		while (genePool.size() < 2 * poolSize) {
+			createGene(genePool.get(0));
 		}
 	}
 
 	@VisibleForTesting
 	char[] createMutation(char[] gene1, char[] gene2) {
 		char[] mutatedGene = gene1.clone();
-		int nrChars = random.nextInt(mutatedGene.length / 4);
+		int nrChars;
+		switch (random.nextInt(3)) {
+		case 0:
+			nrChars = 2;
+			break;
+		case 1:
+			nrChars = 3;
+			break;
+		case 2:
+			nrChars = 4 * mutatedGene.length / 5;
+			break;
+		default:
+			nrChars = 3;
+		}
 		int[] charIndices = chooseRandomCharIndices(mutatedGene, nrChars);
 		Set<Character> charsToBeReplaced = Sets.newHashSet();
 		for (int i = 0; i < nrChars; i++) {
@@ -95,10 +114,22 @@ public class GeneticAlgorithm {
 
 	public Alphabet removeUnfittestGenes(List<String> words) {
 		Collections.sort(genePool, new GenesComparator(words));
+		removeDuplicatesFromSortedGenePool();
 		while (genePool.size() > poolSize) {
 			genePool.remove(genePool.size() - 1);
 		}
 		return new Alphabet(new String(genePool.get(0)));
+	}
+
+	private void removeDuplicatesFromSortedGenePool() {
+		int index = 1;
+		while (index < genePool.size()) {
+			if (Arrays.equals(genePool.get(index - 1), genePool.get(index))) {
+				genePool.remove(index);
+			} else {
+				index++;
+			}
+		}
 	}
 
 	public void addGene(String gene) {

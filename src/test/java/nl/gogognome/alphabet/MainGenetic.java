@@ -48,8 +48,8 @@ public class MainGenetic {
 		public void run() {
 			GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
 			geneticAlgorithm.initGenePool(100, words);
-			// geneticAlgorithm.addGene("JCMPBQWHFOAURVKXINGTZLEDYS");
-			// geneticAlgorithm.addGene("JCMPBQWHFOAURVXINGTKZLEDYS");
+			geneticAlgorithm.addGene("JCMPBQWHFOAURVKXINGTZLEDYS");
+			geneticAlgorithm.addGene("JCMPBQWHFOAURVXINGTKZLEDYS");
 			while (true) {
 				for (int i = 0; i < 10; i++) {
 					geneticAlgorithm.determineNextGeneration();
