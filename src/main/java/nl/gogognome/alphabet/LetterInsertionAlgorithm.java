@@ -1,13 +1,12 @@
 package nl.gogognome.alphabet;
 
 import java.util.List;
-import java.util.Random;
 
-public class OptimalAlphabetFinder {
+public class LetterInsertionAlgorithm {
 
 	public Alphabet findOptimalAlphabet(List<String> words) {
-		char[] usedCharacters = determineCharactersUsedInWords(words);
-		shuffleCharacters(usedCharacters);
+		char[] usedCharacters = new UsedCharactersFind().determineCharactersUsedInWords(words);
+		new Shuffle().shuffleCharacters(usedCharacters);
 
 		Alphabet alphabet = new Alphabet("");
 		alphabet = findOptimalAlphabet(words, usedCharacters, alphabet);
@@ -56,34 +55,4 @@ public class OptimalAlphabetFinder {
 		return bestAlphabet;
 	}
 
-	private void shuffleCharacters(char[] usedCharacters) {
-		Random random = new Random();
-		for (int i = 0; i < 100; i++) {
-			int index1 = random.nextInt(usedCharacters.length);
-			int index2 = random.nextInt(usedCharacters.length);
-			char temp = usedCharacters[index1];
-			usedCharacters[index1] = usedCharacters[index2];
-			usedCharacters[index2] = temp;
-		}
-	}
-
-	private char[] determineCharactersUsedInWords(List<String> words) {
-		boolean[] lettersPresent = new boolean[26];
-		char[] usedCharacters = new char[26];
-		int nrLettersPresent = 0;
-		for (String word : words) {
-			for (int i = 0; i < word.length(); i++) {
-				int index = word.charAt(i) - 'A';
-				if (!lettersPresent[index]) {
-					lettersPresent[index] = true;
-					usedCharacters[nrLettersPresent] = word.charAt(i);
-					nrLettersPresent++;
-				}
-			}
-		}
-
-		char[] trimmedUsedCharacters = new char[nrLettersPresent];
-		System.arraycopy(usedCharacters, 0, trimmedUsedCharacters, 0, nrLettersPresent);
-		return trimmedUsedCharacters;
-	}
 }

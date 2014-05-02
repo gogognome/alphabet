@@ -3,17 +3,17 @@ package nl.gogognome.alphabet;
 import java.io.IOException;
 import java.util.List;
 
-public class Main {
+public class MainGenetic {
 
 	private final List<String> words;
 	private int bestScore = Integer.MIN_VALUE;
 	private Alphabet bestAlphabet;
 
 	public static void main(String[] args) throws Exception {
-		new Main().startThreads();
+		new MainGenetic().startThreads();
 	}
 
-	public Main() throws IOException {
+	public MainGenetic() throws IOException {
 		words = new WordsProvider().getWords();
 	}
 
@@ -46,9 +46,17 @@ public class Main {
 
 		@Override
 		public void run() {
+			GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+			geneticAlgorithm.initGenePool(100, words);
+			// geneticAlgorithm.addGene("JCMPBQWHFOAURVKXINGTZLEDYS");
+			// geneticAlgorithm.addGene("JCMPBQWHFOAURVXINGTKZLEDYS");
 			while (true) {
-				Alphabet alphabet = new LetterInsertionAlgorithm().findOptimalAlphabet(words);
-				updateScoresForAlphabet(alphabet);
+				for (int i = 0; i < 10; i++) {
+					geneticAlgorithm.determineNextGeneration();
+					Alphabet bestAlphabetInGenePool = geneticAlgorithm.removeUnfittestGenes(words);
+					updateScoresForAlphabet(bestAlphabetInGenePool);
+				}
+				geneticAlgorithm.printPool();
 			}
 		}
 	}

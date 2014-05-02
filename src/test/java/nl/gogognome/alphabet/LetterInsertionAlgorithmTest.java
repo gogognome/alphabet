@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
-public class OptimalAlphabetFinderTest {
+public class LetterInsertionAlgorithmTest {
 
 	@Test
 	public void alphabetsExistSoThatAllWordsAreInOrder_findOptimalAlphabet() {
-		Alphabet optimalAlphabet = new OptimalAlphabetFinder().findOptimalAlphabet(Lists.newArrayList("BOOK", "HOOD", "FOOD", "BLOOD"));
+		Alphabet optimalAlphabet = new LetterInsertionAlgorithm().findOptimalAlphabet(Lists.newArrayList("BOOK", "HOOD", "FOOD", "BLOOD"));
 		String letters = optimalAlphabet.toString();
 		assertTrue(letters.indexOf("H") < letters.indexOf("O"));
 		assertTrue(letters.indexOf("B") < letters.indexOf("O"));
@@ -21,7 +21,7 @@ public class OptimalAlphabetFinderTest {
 
 	@Test
 	public void alphabetDoesNotExistSoThatAllWordsAreInOrder_findOptimalAlphabet() {
-		Alphabet optimalAlphabet = new OptimalAlphabetFinder().findOptimalAlphabet(Lists.newArrayList("ABCD", "ADC", "CDA", "BD", "CA", "BCDA"));
+		Alphabet optimalAlphabet = new LetterInsertionAlgorithm().findOptimalAlphabet(Lists.newArrayList("ABCD", "ADC", "CDA", "BD", "CA", "BCDA"));
 		assertEquals(new Alphabet("BCDA"), optimalAlphabet);
 	}
 }
