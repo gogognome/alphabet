@@ -47,7 +47,7 @@ public class Main {
 		@Override
 		public void run() {
 			while (true) {
-				Alphabet alphabet = new LetterInsertionAlgorithm().findOptimalAlphabet(words);
+				Alphabet alphabet = new HillClimbingAlgorithm().findOptimalAlphabet(words);
 				updateScoresForAlphabet(alphabet);
 			}
 		}
